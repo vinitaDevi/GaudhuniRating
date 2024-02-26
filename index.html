@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customer Review</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #d9ce65;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      #logo {
+        max-width: 285px;
+        display: block;
+        margin: 0 auto;
+      }
+      h2{
+        font-size: 20px;
+      }
+      h1{
+      margin-top: -16px;
+      }
+
+      #reviewForm{
+       margin-top: -12%;
+       text-align: center;
+      }
+      input[type="text"],
+      textarea {
+        width: 80%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .stars {
+        display: inline-block;
+        margin-bottom: 20px;
+      }
+      .star {
+        width: 30px;
+        height: 30px;
+        cursor: pointer;
+      }
+      .star:hover,
+      .star.active {
+        filter: brightness(1.5);
+      }
+      .result {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img id="logo" src="logo.png" alt="Company Logo" />
+      
+      <form id="reviewForm">
+        <h2>Our Customer</h2>
+        <h1>Review</h1>
+        <input type="text" id="name" placeholder="Your Name" required /><br />
+        <input type="text" id="name" placeholder="Your Location" required /><br />
+        <textarea
+          id="review"
+          placeholder="Your Review"
+          rows="4"
+          required
+        ></textarea
+        ><br />
+        <label for="rating">Rating:</label>
+
+        <div class="stars" id="stars">
+          <img src="empty.png" alt="Star" class="star" data-value="1" />
+          <img src="empty.png" alt="Star" class="star" data-value="2" />
+          <img src="empty.png" alt="Star" class="star" data-value="3" />
+          <img src="empty.png" alt="Star" class="star" data-value="4" />
+          <img src="empty.png" alt="Star" class="star" data-value="5" />
+        </div>
+        <br />
+        <input type="submit" value="Submit Review" />
+      </form>
+      <br /><br /><br />
+      <div class="result" id="result"></div>
+
+      <script>
+        const stars = document.querySelectorAll(".star");
+        const reviewForm = document.getElementById("reviewForm");
+        const result = document.getElementById("result");
+
+        let rating = 0;
+
+        stars.forEach((star) => {
+          star.addEventListener("mouseenter", function () {
+            const value = this.getAttribute("data-value");
+            highlightStars(value);
+          });
+
+          star.addEventListener("mouseleave", function () {
+            highlightStars(rating);
+          });
+
+          star.addEventListener("click", function () {
+            rating = this.getAttribute("data-value");
+            highlightStars(rating);
+            // showRating();
+          });
+        });
+
+        function highlightStars(value) {
+          stars.forEach((star) => {
+            if (star.getAttribute("data-value") <= value) {
+              star.src = "filled.png";
+              star.classList.add("active");
+            } else {
+              star.src = "empty.png";
+              star.classList.remove("active");
+            }
+          });
+        }
+
+        reviewForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const name = document.getElementById("name").value;
+          const review = document.getElementById("review").value;
+
+          result.innerHTML = `<p><strong>Name:</strong> ${name}</p><p><strong>Rating:</strong> ${rating} star(s)</p><p><strong>Review:</strong> ${review}</p>`;
+        });
+      </script>
+    </div>
+  </body>
+</html>
